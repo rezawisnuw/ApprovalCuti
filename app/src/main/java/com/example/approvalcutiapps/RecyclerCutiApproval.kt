@@ -17,6 +17,7 @@ var getIdCutiApproval:MutableList<String?> = ArrayList()
 var ttlDataCutiApproval: Int = 0
 
 var getCheckedCutiApproval:MutableList<String?> = ArrayList()
+var setCheckedCutiApproval:Boolean = false
 var getJsonCutiApproval:MutableList<String?> = ArrayList()
 
 class RecyclerCutiApproval(val feed: CutiApproval.Feed): RecyclerView.Adapter<CustomViewHolder>(){
@@ -81,6 +82,7 @@ class RecyclerCutiApproval(val feed: CutiApproval.Feed): RecyclerView.Adapter<Cu
             println("GsonBuilder "+ GsonBuilder().create().toJson(res))
             println("getJsonCutiApproval" + getJsonCutiApproval)
             println("position "+position)
+            setCheckedCutiApproval = holder.view.ck_cutiapproval.isChecked
         }
 
     }

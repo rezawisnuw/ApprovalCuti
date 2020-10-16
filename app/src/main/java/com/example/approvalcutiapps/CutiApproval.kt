@@ -57,20 +57,20 @@ class CutiApproval : AppCompatActivity() {
         getListKaryawanCuti()
 
         btn_approve.setOnClickListener{
-            if(ck_cutiapproval.isChecked){
+//            if(ck_cutiapproval.isChecked){
                 approveCuti()
-            }else{
-                Toast.makeText(this@CutiApproval, "Pilih karyawan terlebih dahulu", Toast.LENGTH_LONG).show()
-            }
+//            }else{
+//                Toast.makeText(this@CutiApproval, "Pilih karyawan terlebih dahulu", Toast.LENGTH_LONG).show()
+//            }
 
         }
 
         btn_reject.setOnClickListener {
-            if(ck_cutiapproval.isChecked){
+//            if(ck_cutiapproval.isChecked){
                 rejectCuti()
-            }else{
-                Toast.makeText(this@CutiApproval, "Pilih karyawan terlebih dahulu", Toast.LENGTH_LONG).show()
-            }
+//            }else{
+//                Toast.makeText(this@CutiApproval, "Pilih karyawan terlebih dahulu", Toast.LENGTH_LONG).show()
+//            }
         }
 
     }
@@ -205,6 +205,8 @@ class CutiApproval : AppCompatActivity() {
                     pb_cutiapproval.visibility = View.GONE
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     rv_cutiapproval.adapter = RecyclerCutiApproval(listcuti)
+
+                    setCheckedCutiApproval = false
                 }
 
             }
@@ -247,7 +249,7 @@ class CutiApproval : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val resp = response.body?.string()
                 println("responseapprove "+ resp)
-                if(resp!!.toString().contains("Success") && ck_cutiapproval.isChecked){
+                if(resp!!.toString().contains("Success") && setCheckedCutiApproval == true){
                     runOnUiThread {
                         pb_cutiapproval.visibility = View.GONE
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -256,11 +258,20 @@ class CutiApproval : AppCompatActivity() {
                         startActivity(getIntent())
 
                     }
-                } else {
+                } else if (setCheckedCutiApproval == false){
                     runOnUiThread {
                         pb_cutiapproval.visibility = View.GONE
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Approve", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Approve, Pilih Karyawan Terlebih Dahulu", Toast.LENGTH_LONG).show()
+                        finish()
+                        startActivity(getIntent())
+                    }
+                }
+                else{
+                    runOnUiThread {
+                        pb_cutiapproval.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Approve, Coba Reboot Aplikasi", Toast.LENGTH_LONG).show()
                         finish()
                         startActivity(getIntent())
                     }
@@ -305,7 +316,7 @@ class CutiApproval : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val resp = response.body?.string()
                 println("responsereject"+ resp)
-                if(resp!!.toString()!!.contains("Sukses")){
+                if(resp!!.toString()!!.contains("Sukses") && setCheckedCutiApproval == true){
                     runOnUiThread {
                         pb_cutiapproval.visibility = View.GONE
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -313,11 +324,20 @@ class CutiApproval : AppCompatActivity() {
                         finish()
                         startActivity(getIntent())
                     }
-                } else {
+                } else if (setCheckedCutiApproval == false){
                     runOnUiThread {
                         pb_cutiapproval.visibility = View.GONE
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Reject", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Reject, Pilih Karyawan Terlebih Dahulu", Toast.LENGTH_LONG).show()
+                        finish()
+                        startActivity(getIntent())
+                    }
+                }
+                else{
+                    runOnUiThread {
+                        pb_cutiapproval.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Toast.makeText(this@CutiApproval, "Cuti Gagal Di Reject, Coba Reboot Aplikasi", Toast.LENGTH_LONG).show()
                         finish()
                         startActivity(getIntent())
                     }
