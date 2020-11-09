@@ -66,8 +66,6 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
             getTglCuti()
         }
 
-        getJmlHariCuti()
-
         if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
             tv_inptglawalcuti.visibility = View.VISIBLE
             tv_sampaidengan.visibility = View.VISIBLE
@@ -78,6 +76,10 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
             tv_sampaidengan.visibility = View.GONE
             tv_inptglakhircuti.visibility = View.GONE
             et_tanggalcuti.visibility = View.VISIBLE
+        }
+
+        btn_simpan!!.setOnClickListener {
+            saveCuti()
         }
 
     }
@@ -365,10 +367,6 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         })
     }
 
-    fun getJmlHariCuti(){
-
-    }
-
     fun getTglCuti(){
 
         if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2"){
@@ -427,5 +425,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
        }
     }
 
+    fun saveCuti(){
 
+    }
 }

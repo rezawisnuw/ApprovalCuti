@@ -27,48 +27,47 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="12dp">
 
             <TextView
                 android:id="@+id/tv_karyawan"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Karyawan :"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_jeniscuti"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jenis Cuti :"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_tanggalcuti"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tanggal Cuti :"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_pengajuancuti"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pengajuan Cuti :"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_status"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Status :"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_idcuti"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ID Cuti :"
                 android:textSize="14sp"
@@ -80,42 +79,49 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="12dp">
 
             <TextView
                 android:id="@+id/tv_inpkaryawan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_inpjeniscuti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_inptglcuti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_inppengajuancuti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_inpstatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tv_inpidcuti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
 
         </LinearLayout>
