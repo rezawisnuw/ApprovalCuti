@@ -53,6 +53,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
         tv_inptglawalcuti.text = "--/--/----"
         tv_inptglakhircuti.text = "--/--/----"
+        et_tanggalcuti.text.clear()
         tv_inptglawalcuti.setFocusable(false)
         tv_inptglakhircuti.setFocusable(false)
         et_tanggalcuti.setFocusable(false)
@@ -195,6 +196,9 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
                     tv_inptglakhircuti.visibility = View.GONE
                     et_tanggalcuti.visibility = View.VISIBLE
                 }
+                tv_inptglawalcuti.text = "--/--/----"
+                tv_inptglakhircuti.text = "--/--/----"
+                et_tanggalcuti.text.clear()
                 //println("selectedidJenisCutiInput"+GlobalHelperCutiInput.selectedidJenisCutiInput)
                 getSaldoCuti()
             }
