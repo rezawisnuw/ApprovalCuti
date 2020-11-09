@@ -1,21 +1,19 @@
 package com.example.approvalcutiapps
 
-import android.app.TimePickerDialog
-import android.content.DialogInterface
-import android.content.Intent
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
+import com.applandeo.materialcalendarview.getDatesRange
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
-import kotlinx.android.synthetic.main.layout_cuti_approval.*
 import kotlinx.android.synthetic.main.layout_cuti_input.*
+import kotlinx.android.synthetic.main.layout_cuti_input.sp_jeniscuti
+import kotlinx.android.synthetic.main.layout_izin_input_old.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -24,7 +22,6 @@ import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class GlobalHelperCutiInput {
     companion object {
@@ -33,16 +30,19 @@ class GlobalHelperCutiInput {
         var selectedJenisCutiInput = ""
         var selectedidJenisCutiInput = ""
         var selectedPenggantiCutiInput = ""
+        var getTanggalHariIni = ""
+        var getTanggalAkhir = ""
+        var getTotalHari = 0
     }
 
 }
 
-class CutiInput : AppCompatActivity() {
+class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_cuti_input)
-        //supportActionBar?.title = "Input Izin"
+        //supportActionBar?.title = "Input Cuti"
         setTitle("Input Cuti")
 
         pb_cutiinput.visibility = View.VISIBLE
@@ -51,13 +51,63 @@ class CutiInput : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         );
 
-        getJenisCutiInput()
+        tv_inptglawalcuti.text = "--/--/----"
+        tv_inptglakhircuti.text = "--/--/----"
+        tv_inptglawalcuti.setFocusable(false)
+        tv_inptglakhircuti.setFocusable(false)
+        et_tanggalcuti.setFocusable(false)
+
+        getJenisCuti()
         getPenggantiCuti()
         getAtasanCuti()
 
+        btn_tanggalcuti!!.setOnClickListener {
+            getTglCuti()
+        }
+
+        getJmlHariCuti()
+
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
+            tv_inptglawalcuti.visibility = View.VISIBLE
+            tv_sampaidengan.visibility = View.VISIBLE
+            tv_inptglakhircuti.visibility = View.VISIBLE
+            et_tanggalcuti.visibility = View.GONE
+        }else{
+            tv_inptglawalcuti.visibility = View.GONE
+            tv_sampaidengan.visibility = View.GONE
+            tv_inptglakhircuti.visibility = View.GONE
+            et_tanggalcuti.visibility = View.VISIBLE
+        }
+
     }
 
-    fun getJenisCutiInput() {
+    override fun onSelect(calendar: List<Calendar>) {
+        val myFormat = "dd/MM/yyyy"
+        var sdf = SimpleDateFormat(myFormat, Locale.US)
+        println("www"+calendar)
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
+            tv_inptglawalcuti.text =  sdf.format(calendar[0].time).toString()
+            calendar[0].add(Calendar.DATE, if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
+            tv_inptglakhircuti.text = sdf.format(calendar[0].timeInMillis).toString()
+        }else{
+            var StringDate : String = ""
+            for(i in calendar.indices){
+                var formatted = sdf.format(calendar[i].time).toString()
+                if(i == calendar.lastIndex){
+                    StringDate += formatted
+                } else {
+                    StringDate += "$formatted,"
+                }
+            }
+            et_tanggalcuti.setText(StringDate)
+
+            println("et_tanggalcuti"+et_tanggalcuti.text)
+        }
+
+
+    }
+
+    fun getJenisCuti() {
         val url = "https://hrindomaret.com/api/getJenisCutiInput"
         val nik = intent.getStringExtra("nik")
         val param = JSONObject()
@@ -134,6 +184,18 @@ class CutiInput : AppCompatActivity() {
                 GlobalHelperCutiInput.selectedJenisCutiInput = listketeranganJenisCutiInput[position]
                 GlobalHelperCutiInput.selectedidJenisCutiInput = listidJenisCutiInput[position]
 
+                if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
+                    tv_inptglawalcuti.visibility = View.VISIBLE
+                    tv_sampaidengan.visibility = View.VISIBLE
+                    tv_inptglakhircuti.visibility = View.VISIBLE
+                    et_tanggalcuti.visibility = View.GONE
+                }else{
+                    tv_inptglawalcuti.visibility = View.GONE
+                    tv_sampaidengan.visibility = View.GONE
+                    tv_inptglakhircuti.visibility = View.GONE
+                    et_tanggalcuti.visibility = View.VISIBLE
+                }
+                //println("selectedidJenisCutiInput"+GlobalHelperCutiInput.selectedidJenisCutiInput)
                 getSaldoCuti()
             }
         }
@@ -298,5 +360,68 @@ class CutiInput : AppCompatActivity() {
 
         })
     }
+
+    fun getJmlHariCuti(){
+
+    }
+
+    fun getTglCuti(){
+
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2"){
+
+            val calendar = Calendar.getInstance()
+            val myFormat = "dd/MM/yyyy"
+            var sdf = SimpleDateFormat(myFormat, Locale.US)
+
+            val multiDayBuilder = DatePickerBuilder(this, this)
+                .date(calendar)
+                .pickerType(CalendarView.ONE_DAY_PICKER)
+                .headerColor(android.R.color.holo_green_dark)
+                .selectionColor(android.R.color.holo_green_dark)
+                .todayLabelColor(android.R.color.holo_blue_dark)
+                .dialogButtonsColor(android.R.color.holo_green_dark)
+                .navigationVisibility(View.VISIBLE);
+
+            multiDayBuilder.build().show()
+
+        } else {
+            val calendar = Calendar.getInstance()
+            val myFormat = "dd/MM/yyyy"
+            var sdf = SimpleDateFormat(myFormat, Locale.US)
+//            GlobalHelperCutiInput.getTanggalHariIni = sdf.format(calendar.time)
+//            calendar.time = sdf.parse(GlobalHelperCutiInput.getTanggalHariIni)
+//            calendar.add(Calendar.DATE, if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
+//            val resultdate = Date(calendar.timeInMillis)
+//            GlobalHelperCutiInput.getTanggalAkhir = sdf.format(resultdate)
+//            println("getTanggalHariIni"+GlobalHelperCutiInput.getTanggalHariIni)
+//            println("getTanggalAkhir"+GlobalHelperCutiInput.getTanggalAkhir)
+//            println("jmlhari"+if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
+//            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+            val multiDayBuilder = DatePickerBuilder(this, this)
+                .date(calendar)
+                .pickerType(CalendarView.MANY_DAYS_PICKER)
+                .headerColor(android.R.color.holo_green_dark)
+                .selectionColor(android.R.color.holo_green_dark)
+                .todayLabelColor(android.R.color.holo_blue_dark)
+                .dialogButtonsColor(android.R.color.holo_green_dark)
+                .navigationVisibility(View.VISIBLE);
+
+            multiDayBuilder.build().show()
+
+            //        val dateSetListener =
+            //            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            //                calendar.set(Calendar.YEAR, year)
+            //                calendar.set(Calendar.MONTH, monthOfYear)
+            //                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            //            }
+            //        DatePickerDialog(this@CutiInput,
+            //            dateSetListener,
+            //            calendar.get(Calendar.YEAR),
+            //            calendar.get(Calendar.MONTH),
+            //            calendar.get(Calendar.DAY_OF_MONTH)).show()
+       }
+    }
+
 
 }
