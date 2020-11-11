@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
@@ -94,6 +95,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
             tv_inptglakhircuti.text = sdf.format(calendar[0].timeInMillis).toString()
         }else{
             var StringDate : String = ""
+
             for(i in calendar.indices){
                 var formatted = sdf.format(calendar[i].time).toString()
                 if(i == calendar.lastIndex){
@@ -104,7 +106,20 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
             }
             et_tanggalcuti.setText(StringDate)
 
+            var ArrayDate =
+                et_tanggalcuti.text
+                    .split(",")
+                    .toTypedArray()
+                    .take(if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
+
+            et_tanggalcuti.setText(
+                ArrayDate.toString().substring(1, ArrayDate.toString().length - 1)
+            )
+
             println("et_tanggalcuti"+et_tanggalcuti.text)
+
+
+
         }
 
 
@@ -426,6 +441,58 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
     }
 
     fun saveCuti(){
+        pb_cutiinput.visibility = View.VISIBLE
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        );
+        val url = "https://hrindomaret.com/api/submitCutiInput"
+        val param = JSONObject()
+        val nik = intent.getStringExtra("nik")
+        //param.put("nik",  nik)
+        param.put("nik",  "2015191455")
+        param.put("jeniscuti",  GlobalHelperCutiInput.selectedJenisCutiInput)
+        param.put("idcuti",  GlobalHelperCutiInput.selectedidJenisCutiInput)
+        param.put("pengganticuti",  GlobalHelperCutiInput.selectedPenggantiCutiInput)
+        param.put("atasancuti", tv_inpatasan.text)
+        param.put("jmlharicuti", if(et_jmlhari.text.toString() == "") "0" else et_jmlhari.text.toString())
+        param.put("keterangancuti",if(et_keterangan.text.toString() == "") "" else et_keterangan.text.toString())
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
+            param.put("tglinputcuti", if(et_tanggalcuti.text.toString() == "") "" else et_tanggalcuti.text.split(",").toTypedArray())
+        }else{
+            param.put("tglawalcuti", tv_inptglawalcuti.text)
+            param.put("tglakhircuti", tv_inptglakhircuti.text)
+        }
 
+        val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+        val post = Request.Builder()
+            .url(url)
+            .post(formbody)
+            .build()
+
+        val client = OkHttpClient()
+
+        client.newCall(post).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                println("Data Tidak Masuk")
+                Toast.makeText(this@CutiInput, "Cuti Gagal Di Simpan", Toast.LENGTH_LONG).show()
+                finish()
+                startActivity(getIntent())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val resp = response.body?.string()
+                println("respnsimpan"+resp)
+                runOnUiThread {
+                    pb_cutiinput.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Toast.makeText(this@CutiInput, "Cuti Berhasil Di Simpan", Toast.LENGTH_LONG).show()
+                    finish()
+                    startActivity(getIntent())
+                }
+            }
+
+        })
     }
 }
