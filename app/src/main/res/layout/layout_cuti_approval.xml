@@ -31,6 +31,7 @@
             android:id="@+id/tv_daftarkaryawan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
             android:text="Daftar Karyawan :"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -39,7 +40,8 @@
             android:id="@+id/sp_karyawan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:textSize="10sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_cutiapproval"

@@ -3,22 +3,19 @@ package com.example.approvalcutiapps
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.synthetic.main.layout_cuti_approval.*
-import kotlinx.android.synthetic.main.layout_rv_cuti_approval.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+
 
 class classContainer_spinnerKaryawanCutiApproval{
     var globalContainer_spinnerKaryawanCutiApproval: String? = ""
@@ -81,7 +78,7 @@ class CutiApproval : AppCompatActivity() {
 
         val param = JSONObject()
 //        param.put("nik",  nik)
-        param.put("nik",  "2013077872")
+        param.put("nik",  "1999001072")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -160,6 +157,8 @@ class CutiApproval : AppCompatActivity() {
                 id: Long
             ) {
                 val selectedKaryawanCuti = setKaryawanCuti[position]
+                //(parent!!.getChildAt(0) as TextView).setTextColor(Color.BLUE)
+                (parent!!.getChildAt(0) as TextView).textSize = 14f
 
                 KaryawanCutiParam = selectedKaryawanCuti
 
@@ -228,12 +227,14 @@ class CutiApproval : AppCompatActivity() {
 
 //        val nik = getDataKaryawanCutiApproval
         val idcuti = getIdCutiApproval
+        val tipecuti = getTipeCutiApproval
         val status = "Approve"
 
         val param = JSONObject()
 
 //        param.put("nik", nik)
         param.put("idcuti", idcuti)
+        param.put("tipecuti", tipecuti)
         param.put("status", status)
 
         val formbody = param.toString().replace("\"[","[").replace("]\"","]").replace("\\","").toRequestBody()
@@ -296,12 +297,14 @@ class CutiApproval : AppCompatActivity() {
 
 //        val nik = getDataKaryawanCutiApproval
         val idcuti = getIdCutiApproval
+        val tipecuti = getTipeCutiApproval
         val status = "reject"
 
         val param = JSONObject()
 
 //        param.put("nik", nik)
         param.put("idcuti", idcuti)
+        param.put("tipecuti", tipecuti)
         param.put("status", status)
 
         val formbody = param.toString().replace("\"[","[").replace("]\"","]").replace("\\","").toRequestBody()
@@ -356,10 +359,15 @@ class CutiApproval : AppCompatActivity() {
 
     data class ModelListCuti(
         @SerializedName("KARYAWAN") val KARYAWAN : String?,
+        @SerializedName("POSISI") val POSISI : String?,
+        @SerializedName("DEPARTEMENT") val DEPARTEMENT : String?,
+        @SerializedName("SISASALDOCUTI") val SISASALDOCUTI : String?,
         @SerializedName("JENISCUTI") val JENISCUTI : String?,
         @SerializedName("TANGGALCUTI") val TANGGALCUTI : String?,
-        @SerializedName("PENGAJUANCUTI") val PENGAJUANCUTI : String?,
+        @SerializedName("KETERANGAN") val KETERANGAN : String?,
+        @SerializedName("PENGGANTI") val PENGGANTI : String?,
         @SerializedName("IDCUTI") val IDCUTI : String?,
-        @SerializedName("STATUS") val STATUS : String?
+        @SerializedName("TIPECUTI") val TIPECUTI : String?,
+        @SerializedName("PENGAJUANCUTI") val PENGAJUANCUTI : String?
     )
 }

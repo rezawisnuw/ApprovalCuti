@@ -11,8 +11,10 @@ import kotlinx.android.synthetic.main.layout_rv_cuti_approval.view.*
 //var getDataKaryawanCutiApproval:MutableList<String?> = ArrayList()
 var getJenisCutiApproval:MutableList<String?> = ArrayList()
 var getTanggalCutiApproval:MutableList<String?> = ArrayList()
-var getPengajuanCutiApproval:MutableList<String?> = ArrayList()
+var getKeteranganCutiApproval:MutableList<String?> = ArrayList()
 var getIdCutiApproval:MutableList<String?> = ArrayList()
+var getTipeCutiApproval:MutableList<String?> = ArrayList()
+var getPengajuanCutiApproval:MutableList<String?> = ArrayList()
 
 var ttlDataCutiApproval: Int = 0
 
@@ -36,22 +38,34 @@ class RecyclerCutiApproval(val feed: CutiApproval.Feed): RecyclerView.Adapter<Cu
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val res = feed.data.get(position)
 
-        holder.view.tv_inpkaryawan.text = res.KARYAWAN
+        holder.view.tv_inpkaryawancuti.text = res.KARYAWAN
+        holder.view.tv_inpposisi.text = res.POSISI
+        holder.view.tv_inpdepartement.text = res.DEPARTEMENT
+        holder.view.tv_inpsisasaldo.text = res.SISASALDOCUTI
         holder.view.tv_inpjeniscuti.text = res.JENISCUTI
         holder.view.tv_inptglcuti.text = res.TANGGALCUTI
-        holder.view.tv_inppengajuancuti.text = res.PENGAJUANCUTI
-        holder.view.tv_inpstatus.text = res.STATUS
+        holder.view.tv_inpketerangancuti.text = res.KETERANGAN
+        holder.view.tv_inppengganticuti.text = res.PENGGANTI
 
         holder.view.tv_inpidcuti.text = res.IDCUTI
         holder.view.tv_inpidcuti.setVisibility(View.GONE);
+        holder.view.tv_idcuti.setVisibility(View.GONE);
+        holder.view.tv_inptipecuti.text = res.TIPECUTI
+        holder.view.tv_inptipecuti.setVisibility(View.GONE);
+        holder.view.tv_tipecuti.setVisibility(View.GONE);
+        holder.view.tv_inppengajuancuti.text = res.PENGAJUANCUTI
+        holder.view.tv_inppengajuancuti.setVisibility(View.GONE);
+        holder.view.tv_pengajuancuti.setVisibility(View.GONE);
 
         holder.view.ck_cutiapproval.setOnClickListener {
             var gson = GsonBuilder().create().toJson(res)
 //            var gsonDataKaryawan = GsonBuilder().create().toJson(res.KARYAWAN)
             var gsonJenisCuti = GsonBuilder().create().toJson(res.JENISCUTI)
             var gsonTanggalCuti = GsonBuilder().create().toJson(res.TANGGALCUTI)
-            var gsonPengajuanCuti = GsonBuilder().create().toJson(res.PENGAJUANCUTI)
+            var gsonKeteranganCuti = GsonBuilder().create().toJson(res.KETERANGAN)
             var gsonIdCuti = GsonBuilder().create().toJson(res.IDCUTI)
+            var gsonTipeCuti = GsonBuilder().create().toJson(res.TIPECUTI)
+            var gsonPengajuanCuti = GsonBuilder().create().toJson(res.PENGAJUANCUTI)
 
 
             if(holder.view.ck_cutiapproval.isChecked) {
@@ -62,8 +76,10 @@ class RecyclerCutiApproval(val feed: CutiApproval.Feed): RecyclerView.Adapter<Cu
 //                getDataKaryawanCutiApproval.add(gsonDataKaryawan)
                 getJenisCutiApproval.add(gsonJenisCuti)
                 getTanggalCutiApproval.add(gsonTanggalCuti)
-                getPengajuanCutiApproval.add(gsonPengajuanCuti)
+                getKeteranganCutiApproval.add(gsonKeteranganCuti)
                 getIdCutiApproval.add(gsonIdCuti)
+                getTipeCutiApproval.add(gsonTipeCuti)
+                getPengajuanCutiApproval.add(gsonPengajuanCuti)
 
             } else {
 
@@ -74,8 +90,10 @@ class RecyclerCutiApproval(val feed: CutiApproval.Feed): RecyclerView.Adapter<Cu
 //                    getDataKaryawanCutiApproval.remove(gsonDataKaryawan)
                     getJenisCutiApproval.remove(gsonJenisCuti)
                     getTanggalCutiApproval.remove(gsonTanggalCuti)
-                    getPengajuanCutiApproval.remove(gsonPengajuanCuti)
+                    getKeteranganCutiApproval.remove(gsonKeteranganCuti)
                     getIdCutiApproval.remove(gsonIdCuti)
+                    getTipeCutiApproval.remove(gsonTipeCuti)
+                    getPengajuanCutiApproval.add(gsonPengajuanCuti)
 
                 }
             }
