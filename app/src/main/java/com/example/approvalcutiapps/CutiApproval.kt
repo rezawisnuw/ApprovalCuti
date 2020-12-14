@@ -177,7 +177,7 @@ class CutiApproval : AppCompatActivity() {
     fun getListCuti(){
         val url = "https://hrindomaret.com/api/getCutiApproval"
         val param = JSONObject()
-        param.put("nik",  KaryawanCutiParam)
+        param.put("nik",  "KaryawanCutiParam")
         println("KaryawanCutiParam"+KaryawanCutiParam)
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
@@ -224,15 +224,18 @@ class CutiApproval : AppCompatActivity() {
         );
 
         val url = "https://hrindomaret.com/api/submitCutiApproved"
+        val nik = intent.getStringExtra("nik")
 
-//        val nik = getDataKaryawanCutiApproval
+//        val nikkary = getDataKaryawanCutiApproval
         val idcuti = getIdCutiApproval
         val tipecuti = getTipeCutiApproval
         val status = "Approve"
 
         val param = JSONObject()
 
+//        param.put("nikkary", nikkary)
 //        param.put("nik", nik)
+        param.put("nik", "1999001072")
         param.put("idcuti", idcuti)
         param.put("tipecuti", tipecuti)
         param.put("status", status)

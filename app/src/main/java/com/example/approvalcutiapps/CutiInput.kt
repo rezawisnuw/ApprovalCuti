@@ -64,7 +64,12 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         getAtasanCuti()
 
         btn_tanggalcuti!!.setOnClickListener {
-            getTglCuti()
+            if(et_jmlhari.text.toString().toInt() <= tv_inpsisa.text.toString().toInt()){
+                getTglCuti()
+            }else{
+                Toast.makeText(this@CutiInput, "Jumlah hari melebihi batas sisa cuti", Toast.LENGTH_LONG).show()
+            }
+
         }
 
         if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
@@ -118,8 +123,6 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
             println("et_tanggalcuti"+et_tanggalcuti.text)
 
-
-
         }
 
 
@@ -130,7 +133,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val nik = intent.getStringExtra("nik")
         val param = JSONObject()
         //param.put("nik",  nik)
-        param.put("nik",  "2015191455")
+        param.put("nik",  "2015224030")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -227,7 +230,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val nik = intent.getStringExtra("nik")
         val param = JSONObject()
         //param.put("nik",  nik)
-        param.put("nik",  "2015191455")
+        param.put("nik",  "2015224030")
         param.put("idcuti",  GlobalHelperCutiInput.selectedidJenisCutiInput )
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
@@ -271,7 +274,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val nik = intent.getStringExtra("nik")
         val param = JSONObject()
         //param.put("nik",  nik)
-        param.put("nik",  "2015191455")
+        param.put("nik",  "2015224030")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -349,7 +352,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val nik = intent.getStringExtra("nik")
         val param = JSONObject()
         //param.put("nik",  nik)
-        param.put("nik",  "2015191455")
+        param.put("nik",  "2015224030")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -450,7 +453,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val param = JSONObject()
         val nik = intent.getStringExtra("nik")
         //param.put("nik",  nik)
-        param.put("nik",  "2015191455")
+        param.put("nik",  "2015224030")
         param.put("jeniscuti",  GlobalHelperCutiInput.selectedJenisCutiInput)
         param.put("idcuti",  GlobalHelperCutiInput.selectedidJenisCutiInput)
         param.put("pengganticuti",  GlobalHelperCutiInput.selectedPenggantiCutiInput)
