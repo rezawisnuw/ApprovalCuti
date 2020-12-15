@@ -177,7 +177,7 @@ class CutiApproval : AppCompatActivity() {
     fun getListCuti(){
         val url = "https://hrindomaret.com/api/getCutiApproval"
         val param = JSONObject()
-        param.put("nik",  "KaryawanCutiParam")
+        param.put("nik",  "2012083501")
         println("KaryawanCutiParam"+KaryawanCutiParam)
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
