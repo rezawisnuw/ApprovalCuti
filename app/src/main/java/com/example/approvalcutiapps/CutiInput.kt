@@ -77,7 +77,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
         }
 
-        if (GlobalHelperCutiInput.selectedidJenisCutiInput == "1" || GlobalHelperCutiInput.selectedidJenisCutiInput == "2") {
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" || GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
             tv_inptglawalcuti.visibility = View.VISIBLE
             tv_sampaidengan.visibility = View.VISIBLE
             tv_inptglakhircuti.visibility = View.VISIBLE
@@ -99,7 +99,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         val myFormat = "dd/MM/yyyy"
         var sdf = SimpleDateFormat(myFormat, Locale.US)
         println("www"+calendar)
-        if (GlobalHelperCutiInput.selectedidJenisCutiInput == "1" || GlobalHelperCutiInput.selectedidJenisCutiInput == "2") {
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" || GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
             tv_inptglawalcuti.text =  sdf.format(calendar[0].time).toString()
             calendar[0].add(Calendar.DATE, if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
             tv_inptglakhircuti.text = sdf.format(calendar[0].timeInMillis).toString()
@@ -210,7 +210,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
                 GlobalHelperCutiInput.selectedJenisCutiInput = listketeranganJenisCutiInput[position]
                 GlobalHelperCutiInput.selectedidJenisCutiInput = listidJenisCutiInput[position]
 
-                if (GlobalHelperCutiInput.selectedidJenisCutiInput == "1" || GlobalHelperCutiInput.selectedidJenisCutiInput == "2") {
+                if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" || GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
                     tv_inptglawalcuti.visibility = View.VISIBLE
                     tv_sampaidengan.visibility = View.VISIBLE
                     tv_inptglakhircuti.visibility = View.VISIBLE
@@ -393,7 +393,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
     fun getTglCuti(){
 
-        if (GlobalHelperCutiInput.selectedidJenisCutiInput == "1" || GlobalHelperCutiInput.selectedidJenisCutiInput == "2"){
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" || GlobalHelperCutiInput.selectedidJenisCutiInput != "2"){
 
             val calendar = Calendar.getInstance()
             val myFormat = "dd/MM/yyyy"
@@ -466,11 +466,11 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         param.put("atasancuti", tv_inpatasan.text)
         param.put("jmlharicuti", if(et_jmlhari.text.toString() == "") "0" else et_jmlhari.text.toString())
         param.put("keterangancuti",if(et_keterangan.text.toString() == "") "" else et_keterangan.text.toString())
-        if (GlobalHelperCutiInput.selectedidJenisCutiInput == "1" || GlobalHelperCutiInput.selectedidJenisCutiInput == "2") {
-            param.put("tglinputcuti", if(et_tanggalcuti.text.toString() == "") "" else et_tanggalcuti.text.split(",").toTypedArray())
-        }else{
+        if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" || GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
             param.put("tglawalcuti", tv_inptglawalcuti.text)
             param.put("tglakhircuti", tv_inptglakhircuti.text)
+        }else{
+            param.put("tglinputcuti", if(et_tanggalcuti.text.toString() == "") "" else et_tanggalcuti.text.split(",").toTypedArray())
         }
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
