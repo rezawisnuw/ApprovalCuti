@@ -101,7 +101,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         println("www"+calendar)
         if (GlobalHelperCutiInput.selectedidJenisCutiInput != "1" && GlobalHelperCutiInput.selectedidJenisCutiInput != "2") {
             tv_inptglawalcuti.text =  sdf.format(calendar[0].time).toString()
-            calendar[0].add(Calendar.DATE, if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt())
+            calendar[0].add(Calendar.DATE, if(et_jmlhari.text.toString() == "") GlobalHelperCutiInput.getTotalHari else et_jmlhari.text.toString().toInt() - 1)
             tv_inptglakhircuti.text = sdf.format(calendar[0].timeInMillis).toString()
         }else{
             var StringDate : String = ""
