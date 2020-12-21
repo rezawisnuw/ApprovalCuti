@@ -331,6 +331,8 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
         }
 
+        listPenggantiCutiInput.add(0,"")
+
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listPenggantiCutiInput)
 
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
