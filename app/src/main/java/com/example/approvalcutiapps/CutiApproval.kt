@@ -1,9 +1,11 @@
 package com.example.approvalcutiapps
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
@@ -78,7 +80,7 @@ class CutiApproval : AppCompatActivity() {
 
         val param = JSONObject()
 //        param.put("nik",  nik)
-        param.put("nik",  "1999001072")
+        param.put("nik",  "2013077872")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -93,6 +95,7 @@ class CutiApproval : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
 
                 val body = response.body?.string()
+                val respnObject = JSONObject(body)
                 println("bodykaryawancutiapproval" + body)
 
                 runOnUiThread {
@@ -100,14 +103,42 @@ class CutiApproval : AppCompatActivity() {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
 
-                val ret_spinnerKaryawanCutiApproval = classContainer_spinnerKaryawanCutiApproval()
-                //listApprovalType = body
+                if (respnObject.getJSONArray("data").toString() == "[]"){
+                    runOnUiThread {
 
-                ret_spinnerKaryawanCutiApproval.globalContainer_spinnerKaryawanCutiApproval = body
-                objContainer_spinnerKaryawanCutiApproval.setObjContainer_spinnerKaryawanCutiApproval(ret_spinnerKaryawanCutiApproval)
-                //setApprovalList(resApprovalType)
+                        val dialogBuilder  = AlertDialog.Builder(this@CutiApproval)
 
-                setListKaryawanCuti()
+                        dialogBuilder.setMessage("Data Pengajuan CUti Tidak ada")
+                            .setTitle("Data Kosong")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", DialogInterface.OnClickListener{
+                                    dialog, which ->
+                                Toast.makeText(
+                                    this@CutiApproval,
+                                    "Tidak ada karyawan yang mengajukan cuti",
+                                    Toast.LENGTH_SHORT).show()
+                                finish()
+                                //startActivity(getIntent())
+                            })
+
+                        dialogBuilder.show()
+                    }
+
+                }
+
+                else{
+
+                    val ret_spinnerKaryawanCutiApproval = classContainer_spinnerKaryawanCutiApproval()
+                    //listApprovalType = body
+
+                    ret_spinnerKaryawanCutiApproval.globalContainer_spinnerKaryawanCutiApproval = body
+                    objContainer_spinnerKaryawanCutiApproval.setObjContainer_spinnerKaryawanCutiApproval(ret_spinnerKaryawanCutiApproval)
+                    //setApprovalList(resApprovalType)
+
+                    setListKaryawanCuti()
+                }
+
+
 
 
             }
@@ -177,7 +208,8 @@ class CutiApproval : AppCompatActivity() {
     fun getListCuti(){
         val url = "https://hrindomaret.com/api/getCutiApproval"
         val param = JSONObject()
-        param.put("nik",  "2012083501")
+        //param.put("nik",  "2013223652")
+        param.put("nik",  KaryawanCutiParam)
         println("KaryawanCutiParam"+KaryawanCutiParam)
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
