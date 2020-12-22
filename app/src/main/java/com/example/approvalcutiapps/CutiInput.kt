@@ -158,7 +158,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
                 val respnObject = JSONObject(body)
                 println("bodykaryawancutiinput" + body)
 
-                if (respnObject.getJSONArray("data").toString() == "[]"){
+                if (respnObject.getJSONArray("data").toString() != "[]"){
                     runOnUiThread {
 
                         val dialogBuilder  = AlertDialog.Builder(this@CutiInput)
