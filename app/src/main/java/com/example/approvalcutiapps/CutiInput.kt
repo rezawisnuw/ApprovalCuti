@@ -1,17 +1,21 @@
 package com.example.approvalcutiapps
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder
 import com.applandeo.materialcalendarview.getDatesRange
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
+import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.layout_cuti_approval.*
 import kotlinx.android.synthetic.main.layout_cuti_input.*
 import kotlinx.android.synthetic.main.layout_cuti_input.sp_jeniscuti
 import kotlinx.android.synthetic.main.layout_izin_input_old.*
@@ -60,9 +64,8 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         tv_inptglakhircuti.setFocusable(false)
         et_tanggalcuti.setFocusable(false)
 
-        getJenisCuti()
-        getPenggantiCuti()
-        getAtasanCuti()
+        getKaryawanCuti()
+
 
         btn_tanggalcuti!!.setOnClickListener {
             if(et_jmlhari.text.toString() == ""){
@@ -131,6 +134,72 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         }
 
 
+    }
+
+    fun getKaryawanCuti(){
+        val url = "https://hrindomaret.com/api/getCutiApproval"
+        val param = JSONObject()
+        param.put("nik",  "2015191455")
+        //param.put("nik",  nik)
+
+        val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+        val post = Request.Builder()
+            .url(url)
+            .post(formbody)
+            .build()
+
+        val client = OkHttpClient()
+
+        client.newCall(post).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+
+                val body = response.body?.string()
+                val respnObject = JSONObject(body)
+                println("bodykaryawancutiinput" + body)
+
+                if (respnObject.getJSONArray("data").toString() == "[]"){
+                    runOnUiThread {
+
+                        val dialogBuilder  = AlertDialog.Builder(this@CutiInput)
+
+                        dialogBuilder.setMessage("Masih Ada Data Cuti Yang Belum Di Proses")
+                            .setTitle("Info")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", DialogInterface.OnClickListener{
+                                    dialog, which ->
+                                Toast.makeText(
+                                    this@CutiInput,
+                                    "Selesaikan proses cuti yang sebelumnya terlebih dahulu",
+                                    Toast.LENGTH_SHORT).show()
+                                finish()
+                                //startActivity(getIntent())
+                            })
+
+                        dialogBuilder.show()
+                    }
+
+                }
+
+                else{
+
+                    runOnUiThread {
+                        pb_cutiinput.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        getJenisCuti()
+                        getPenggantiCuti()
+                        getAtasanCuti()
+                    }
+
+                }
+
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("Hasil Error")
+            }
+        })
     }
 
     fun getJenisCuti() {
