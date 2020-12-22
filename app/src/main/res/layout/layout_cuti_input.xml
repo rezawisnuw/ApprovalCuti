@@ -51,8 +51,7 @@
                 android:id="@+id/tv_inphakcuti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_digunakan"
@@ -66,8 +65,7 @@
                 android:id="@+id/tv_inpdigunakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_sisa"
@@ -81,8 +79,7 @@
                 android:id="@+id/tv_inpsisa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
