@@ -63,6 +63,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         tv_inptglawalcuti.setFocusable(false)
         tv_inptglakhircuti.setFocusable(false)
         et_tanggalcuti.setFocusable(false)
+        btn_simpan.isEnabled = false
 
         getKaryawanCuti()
 
@@ -95,6 +96,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
         btn_simpan!!.setOnClickListener {
             saveCuti()
         }
+
 
     }
 
@@ -131,6 +133,16 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
             println("et_tanggalcuti"+et_tanggalcuti.text)
 
+        }
+
+        if(tv_inptglawalcuti.text.toString() == "--/--/----" || et_jmlhari.text.toString() == ""){
+            btn_simpan.isEnabled = false
+            Toast.makeText(
+                this@CutiInput,
+                "Silahkan pilih tanggal cuti terlebih dahulu",
+                Toast.LENGTH_SHORT).show()
+        }else{
+            btn_simpan.isEnabled = true
         }
 
 
@@ -294,6 +306,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
                 tv_inptglakhircuti.text = "--/--/----"
                 et_tanggalcuti.text.clear()
                 et_jmlhari.text.clear()
+                btn_simpan.isEnabled = false
                 //println("selectedidJenisCutiInput"+GlobalHelperCutiInput.selectedidJenisCutiInput)
                 getSaldoCuti()
             }
