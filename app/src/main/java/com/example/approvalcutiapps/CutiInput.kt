@@ -150,6 +150,7 @@ class CutiInput : AppCompatActivity(), OnSelectDateListener {
 
     fun getKaryawanCuti(){
         val url = "https://hrindomaret.com/api/getCutiApproval"
+        val nik = intent.getStringExtra("nik")
         val param = JSONObject()
         param.put("nik",  "2015191455")
         //param.put("nik",  nik)
