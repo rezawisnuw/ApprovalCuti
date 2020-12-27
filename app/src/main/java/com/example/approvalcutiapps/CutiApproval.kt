@@ -108,7 +108,7 @@ class CutiApproval : AppCompatActivity() {
 
                         val dialogBuilder  = AlertDialog.Builder(this@CutiApproval)
 
-                        dialogBuilder.setMessage("Data Pengajuan CUti Tidak ada")
+                        dialogBuilder.setMessage("Data Pengajuan Cuti Tidak ada")
                             .setTitle("Data Kosong")
                             .setCancelable(false)
                             .setPositiveButton("OK", DialogInterface.OnClickListener{
