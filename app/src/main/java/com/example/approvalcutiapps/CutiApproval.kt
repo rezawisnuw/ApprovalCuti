@@ -80,7 +80,7 @@ class CutiApproval : AppCompatActivity() {
 
         val param = JSONObject()
 //        param.put("nik",  nik)
-        param.put("nik",  "2013077872")
+        param.put("nik",  "2008600473")
 
         val formbody = param.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -267,7 +267,7 @@ class CutiApproval : AppCompatActivity() {
 
 //        param.put("nikkary", nikkary)
 //        param.put("nik", nik)
-        param.put("nik", "1999001072")
+        param.put("nik", "2015191455")
         param.put("idcuti", idcuti)
         param.put("tipecuti", tipecuti)
         param.put("status", status)
